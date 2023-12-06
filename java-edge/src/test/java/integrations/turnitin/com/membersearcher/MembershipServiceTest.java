@@ -1,5 +1,6 @@
 package integrations.turnitin.com.membersearcher;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -8,6 +9,7 @@ import integrations.turnitin.com.membersearcher.client.MembershipBackendClient;
 import integrations.turnitin.com.membersearcher.model.Membership;
 import integrations.turnitin.com.membersearcher.model.MembershipList;
 import integrations.turnitin.com.membersearcher.model.User;
+import integrations.turnitin.com.membersearcher.model.UserList;
 import integrations.turnitin.com.membersearcher.service.MembershipService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,9 +59,11 @@ public class MembershipServiceTest {
 				.setId("2")
 				.setName("test two")
 				.setEmail("test2@example.com");
+		List<User> users = Arrays.asList(userOne, userTwo);
+		UserList userList = new UserList();
+		userList.setUsers(users);
+		when(membershipBackendClient.fetchUsers()).thenReturn(CompletableFuture.completedFuture(userList));
 		when(membershipBackendClient.fetchMemberships()).thenReturn(CompletableFuture.completedFuture(members));
-		when(membershipBackendClient.fetchUser("1")).thenReturn(CompletableFuture.completedFuture(userOne));
-		when(membershipBackendClient.fetchUser("2")).thenReturn(CompletableFuture.completedFuture(userTwo));
 	}
 
 	@Test

@@ -2,6 +2,8 @@ package integrations.turnitin.com.membersearcher.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class Membership {
 	private String id;
 
@@ -45,6 +47,15 @@ public class Membership {
 
 	public Membership setUser(User user) {
 		this.user = user;
+		return this;
+	}
+
+	public Membership setUserFromList(UserList users) {
+		this.user = users.getUsers().stream()
+				.filter(user -> Objects.equals(user.getId(), userId))
+				.findFirst()
+				.orElse(null);
+
 		return this;
 	}
 }
